@@ -1,0 +1,22 @@
+port: 8000
+redis:
+  ip: "localhost"
+  port: 6379
+  db: 0
+cassandra:
+  ip: "127.0.0.1"
+  keyspace: "safedelivr"
+github:
+  clientid: "79c5022fc77e7d3cbc54"
+  clientsecret: "e6867ea095c19ef8131aa7c67fe7a8bf21c30fb5"
+  endpoint: "https://github.com/login/oauth"
+  api: "https://api.github.com"
+  success: "http://safedelivr.com:8080/api/login/oAuth"
+session:
+  cookie: "__session"
+  key: "2037edb3f3bb0dfac41dc5bb931c0978"
+sendgrid:
+  key: "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"
+mailgun:
+  key: "key-167454c309748fa02ba23d4ad5e25dab"
+  pubkey: "pubkey-036ff062cad66a88716bb01286e58e00"
