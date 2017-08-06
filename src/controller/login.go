@@ -89,7 +89,7 @@ func LoginVerify(req *request.Request, res *response.Response, next func()){
         "company": userData.Company,
         "avatar_url": userData.Avatar_Url,
         "created_at": Time.Now(),
-        "api_key": "",
+        "api_key": userData.Access_Token,
         "user_type": 1,
         "location": userData.Location})
       // if no success, then throw error
@@ -112,6 +112,7 @@ func LoginVerify(req *request.Request, res *response.Response, next func()){
     }
     // User data fetched/Access Token updated
     userData.UUID = user.GetId()
+    userData.Api_key = userData.Access_Token
     fmt.Println(user, user.GetId())
     var sessionKey = getUniqueString(tokenStruct.Access_Token)
     if helpers.SaveSession(sessionKey, userData) != true {

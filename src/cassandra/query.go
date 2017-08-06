@@ -1,7 +1,6 @@
 package cassandra
 import (
   "strconv"
-  "fmt"
   "github.com/gocql/gocql"
 )
 
@@ -22,7 +21,6 @@ func Insert(table string, row map[string]interface{}) (bool, error) {
     elems = elems - 1
   }
   query = query + valStr
-  fmt.Println(query)
   err := Session.Query(query, values...).Exec()
   if err != nil {
     return false, err
@@ -62,7 +60,6 @@ func Update(table string, where map[string]interface{}, row map[string]interface
     clausesCount = clausesCount - 1
   }
   query = query + whereStr
-  fmt.Println(query)
   err := Session.Query(query, values...).Exec()
   if err != nil {
     return false, err
@@ -90,7 +87,6 @@ func Select(table string, columns string, where map[string]interface{}, limit in
       count = count - 1
     }
   }
-  fmt.Println(query, values)
   if len(where) == 0 {
     return Session.Query(query).Consistency(gocql.One).Iter()
   }

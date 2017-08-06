@@ -12,4 +12,6 @@ func SetRoutes(Express express.ExpressInterface){
   Express.Use(controller.LoginController)
   Express.Use(controller.UserController)
   Express.Use(controller.BatchController)
+  Express.Use(controller.WebhookController)
+  Express.Use(controller.StatsController)
 }

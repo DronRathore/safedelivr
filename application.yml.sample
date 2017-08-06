@@ -17,6 +17,16 @@ session:
   key: "2037edb3f3bb0dfac41dc5bb931c0978"
 sendgrid:
   key: "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"
+  endpoint: "https://api.sendgrid.com/v3/mail/send"
+  username: "lol"
+  password: "lol++"
 mailgun:
   key: "key-167454c309748fa02ba23d4ad5e25dab"
   pubkey: "pubkey-036ff062cad66a88716bb01286e58e00"
+  endpoint: "/api/v3/"
+  domain: "www.safedelivr.com"
+rabbit:
+  connstr: "amqp://admin:admin@localhost:5672/"
+datadog:
+  connstr: "127.0.0.1:8125"
+consumers: 4

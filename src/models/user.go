@@ -1,13 +1,12 @@
 package models
 import (
   "errors"
-  "fmt"
   "time"
   "github.com/gocql/gocql"
   "cassandra"
 )
 type User struct {
-  user_id gocql.UUID
+  User_Id gocql.UUID
   Email string
   Name string
   Api_Key string
@@ -22,7 +21,7 @@ type User struct {
 func (u *User) Populate (data map[string]interface{}) *User {
   // Type safe injection
   if data["user_id"] != nil {
-    u.user_id = data["user_id"].(gocql.UUID)
+    u.User_Id = data["user_id"].(gocql.UUID)
   }
   if data["email"] != nil {
     u.Email = data["email"].(string)
@@ -52,15 +51,15 @@ func (u *User) Populate (data map[string]interface{}) *User {
 }
 
 func (u *User) GetId() string {
-  return u.user_id.String()
+  return u.User_Id.String()
 }
 // Returns UUID in orignal format
 func (u *User) GetUUID() gocql.UUID {
-  return u.user_id
+  return u.User_Id
 }
 // set UUID v1
 func (u *User) New () *User {
-  u.user_id = gocql.TimeUUID()
+  u.User_Id = gocql.TimeUUID()
   return u
 }
 
@@ -73,17 +72,21 @@ func (u *User) Update(data map[string]interface{}) (bool, error) {
 
 // Check if a User exists, if then populate the model
 func (u *User) Exists() (bool, error) {
+  var emptyId gocql.UUID
   var options  map[string]interface{} = make(map[string]interface{})
   // todo: better map and make for searching docs
-  if u.Email == "" && u.Api_Key != "" {
-    options["api_key"] = u.Api_Key
-  } else {
+  if u.Email != "" {
     options["email"] = u.Email
+  } 
+  if u.Api_Key != ""  {
+    options["api_key"] = u.Api_Key
+  }
+  if u.User_Id != emptyId {
+    options["user_id"] = u.User_Id
   }
   iterator := cassandra.Select("users", "*", options, 1)
   var data map[string]interface{} = make(map[string]interface{})
   iterator.MapScan(data)
-  fmt.Println(data)
   if len(data) == 0 {
     // no row found
     return false, nil

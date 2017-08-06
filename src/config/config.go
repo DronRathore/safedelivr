@@ -21,14 +21,27 @@ type Config struct {
   }
   Sendgrid struct {
     Key string `yaml:key`
+    Endpoint string `yaml:endpoint`
+    Username string `yaml:username`
+    Password string `yaml:password`
   }
   Cassandra struct {
     Ip string `yaml:ip`
     Keyspace string `yaml:keyspace`
   }
+
+  Datadog struct {
+    Connstr string `yaml:connstr`
+  }
+  
+  Rabbit struct {
+    ConnectString string `yaml:connstr`
+  }
   MailGun struct {
-    Api_Key string `yaml:key`
+    Key string `yaml:key`
     Pub_Key string `yaml:pubkey`
+    Endpoint string `yaml:endpoint`
+    Domain string `yaml:domain`
   }
   Github struct {
     ClientId string `yaml:clientid`
@@ -37,6 +50,7 @@ type Config struct {
     Success string `yaml:success`
     Api string `yaml:api`
   }
+  Consumers int
 }
 // global configuration var
 var Configuration *Config
@@ -72,5 +86,8 @@ func LoadYaml(){
   if err != nil {
     fmt.Printf("Yaml parse failed")
     panic(err)
+  }
+  if os.Getenv("port") != "" {
+    Configuration.Port = os.Getenv("port")
   }
 }

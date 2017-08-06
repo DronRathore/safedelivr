@@ -10,4 +10,5 @@ type GithubUser struct{
   Location string `json:location`
   Email string `json:email`
   Access_Token string `json:access_token`
+  Api_key string `json:api_key`
 }

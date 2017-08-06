@@ -5,6 +5,11 @@ import (
   "io/ioutil"
   "encoding/json"
   "fmt"
+  "doggo"
+  "config"
+  "redis"
+  "net/http"
+  "time"
   request "github.com/DronRathore/goexpress/request"
   response "github.com/DronRathore/goexpress/response"
   express "github.com/DronRathore/goexpress"
@@ -29,6 +34,7 @@ func UserIndex(req *request.Request, res *response.Response, next func()){
       "avatar_url": userData.Avatar_Url,
       "company": userData.Company,
       "uuid": userData.UUID,
+      "api_key": userData.Api_key,
       "location": userData.Location})
     return
   }
@@ -64,6 +70,7 @@ func UserUpdate(req *request.Request, res *response.Response, next func()) {
         // avoid primary key from updation
         // we are like spotify, won't let you change email
         delete(updateObj, "email")
+        delete(updateObj, "user_id")
         done, _ := user.Update(updateObj)
         if done == true {
           res.JSON(updateObj)
@@ -77,6 +84,7 @@ func UserUpdate(req *request.Request, res *response.Response, next func()) {
     }
   }
   Send403:
+    doggo.AddDoggoMetric("user.login.fail")
     res.Header.SetStatus(403)
     res.JSON(map[string]string{"error": "Please Login first"})
     return
@@ -84,9 +92,30 @@ func UserUpdate(req *request.Request, res *response.Response, next func()) {
     res.Header.SetStatus(500)
     res.JSON(map[string]string{"error": "Internal Server Error"})
 }
+/*
+  Logout handler
+*/
+func UserLogout(req *request.Request, res *response.Response, next func()){
+  if IsLoggedIn(res) {
+    redis.Redis.Del(req.Cookies.Get(config.Configuration.Session.Cookie))
+    res.Cookie.Add(&http.Cookie{
+      Name: config.Configuration.Session.Cookie,
+      Value: "",
+      Path: "/",
+      Domain: "safedelivr.com",
+      Expires: time.Unix(int64(time.Now().Unix()) - 186000, 0)})
+    res.Redirect("/")
+    res.End()
+  } else {
+    res.Redirect("/")
+    res.End()
+  }
+}
+
 var UserController = func() interface{} {
   var Router = express.Router()
   Router.Get("/api/user", UserIndex)
+  Router.Get("/api/user/logout", UserLogout)
   Router.Post("/api/user", UserUpdate)
   return *Router
 }()
