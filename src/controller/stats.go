@@ -17,6 +17,7 @@ func GetStats(req *request.Request, res *response.Response, next func()){
   }
   var userData = res.Locals["user"].(*models.UserRedis)
   user_id, _ := gocql.ParseUUID(userData.UUID)
+  // todo: cache the latest stats, don't fetch from DB everytime
   data := models.GetWeekStats(user_id)
   res.JSON(data)
 }
