@@ -238,14 +238,14 @@ func BatchUpdateMGStatus(req *request.Request, res *response.Response, next func
     return
   }
   // simple checks
-  if len(req.Body["event"]) == 0 || len(req.Body["recipient"]) == 0 || len(req.Body["batch_id"]) == 0 {
+  if len(req.Body["event"]) == 0 || len(req.Body["recipient"]) == 0 || len(req.Body["batch-id"]) == 0 {
     res.Header.SetStatus(400)
     res.Write("Bad Request").End()
     return
   }
   // Cool, it is a valid webhook request from MG
   // process it.
-  batch_id_data := req.Body["batch_id"][0]
+  batch_id_data := req.Body["batch-id"][0]
   if batch_id_data == "" {
     // batch_id not present, drop the request
     res.Header.SetStatus(400)
@@ -261,8 +261,8 @@ func BatchUpdateMGStatus(req *request.Request, res *response.Response, next func
     return
   }
   // see if we have a log_id
-  if len(req.Body["log_id"]) == 1 {
-    logId, err = gocql.ParseUUID(req.Body["log_id"][0])
+  if len(req.Body["log-id"]) == 1 {
+    logId, err = gocql.ParseUUID(req.Body["log-id"][0])
   }
   email = req.Body["recipient"][0]
   var eventName = req.Body["event"][0]
