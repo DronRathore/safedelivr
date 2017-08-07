@@ -4,7 +4,7 @@ go get
 go build worker.go
 go build app.go
 mkdir -p ./tmp
-if [ ! -f /tmp/supervisor.sock ]; then
+if [ ! -f ./tmp/supervisor.sock ]; then
 	supervisord
 	supervisorctl status
 else
