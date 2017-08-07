@@ -282,6 +282,9 @@ func BatchUpdateMGStatus(req *request.Request, res *response.Response, next func
       updateObject = map[string]interface{}{"state": "dropped"}
       shouldRetry = false
     break;
+   case "dropped":
+      updateObject = map[string]interface{}{"state": "dropped"}
+      shouldRetry = false
     default: return // we can add further click/open events but OOS
   }
   // retrieve the timestamp

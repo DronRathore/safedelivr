@@ -17,6 +17,7 @@ func main() {
   rabbit.Connect()
   // declare exchanges and queues
   rabbit.Setup()
+  doggo.DialDoggo()
   // connect to cassnadra
   cassandra.Connect(config.Configuration.Cassandra.Ip, config.Configuration.Cassandra.Keyspace)
   worker.InitSg()
@@ -42,7 +43,7 @@ func main() {
     fmt.Println(i, " Mail Gun Individual Consumer started")
     rabbit.MailGunChannel.Listen(worker.MGListener)  
   }
-  doggo.DoggoEvent("Doggo consumers ready", "" , false)
+  doggo.DoggoEvent("Doggo consumers ready", "success" , false)
   // A quick hack to put the worker in infinte loop
   <- exit
 }

@@ -9,7 +9,6 @@ import (
   "crypto/hmac"
   "encoding/hex"
   "github.com/gocql/gocql"
-  "fmt"
   request "github.com/DronRathore/goexpress/request"
 )
 const MAX_FORM_SIZE = 1024*1024*1024
@@ -28,7 +27,6 @@ func ReadMultiPartForm(boundary string, body io.Reader) *multipart.Form {
 */
 func UpdateStats(user_id gocql.UUID, key string){
   stat := models.NewStat(user_id)
-  fmt.Println("Already exits")
   stat.Update([]string{key})
 }
 func IsMultipart(header string, boundary *string) bool {

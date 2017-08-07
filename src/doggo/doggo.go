@@ -42,7 +42,8 @@ func DoggoEvent(title string, data interface{}, isError bool){
     event.AlertType = datadog.Error
     event.Tags = []string{"go-error"}
   }
-  DoggoClient.Event(event)
+  err := DoggoClient.Event(event)
+  fmt.Println(err, event)
 }
 
 func AddDoggoMetric(name string){
