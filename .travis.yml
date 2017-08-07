@@ -1,0 +1,8 @@
+language: go
+go:
+  master
+
+services:
+  - rabbitmq
+script:
+  - ./run_test
