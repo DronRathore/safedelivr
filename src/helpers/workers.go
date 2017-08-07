@@ -11,7 +11,7 @@ import (
   "github.com/gocql/gocql"
 )
 func CanRetry(maxAllowed int, retryCount int, routingKey *string) bool {
-  if retryCount > maxAllowed {
+  if retryCount >= maxAllowed {
     return false
   }
   retryCountStr := strconv.Itoa(retryCount + 1)
@@ -33,7 +33,7 @@ func NextChannelToTry(tried map[string]bool)(*rabbit.WorkerList){
   Helper for Amq Consumer to get next queue name to be used for retrial
 */
 func GetNextChannel(currentChannel string, list string) (*rabbit.WorkerList, string) {
-  fmt.Println("Getting next channel=>", list)
+  fmt.Println("Getting next channel from ", list)
   if list == "" {
     list = ""
     for channelName, _ := range rabbit.EmailWorkers {
@@ -42,13 +42,15 @@ func GetNextChannel(currentChannel string, list string) (*rabbit.WorkerList, str
         list = list + channelName + ","
       }
     }
+    // trim the last comma
+    list = list[:len(list) - 1]
   }
   var parts = strings.Split(list, ",")
   if len(parts) == 0 {
     return nil, ""
   }
   // add the currentChannel at the end of the priority
-  list = list[:len(list) - 1] + "," + currentChannel
+  list = list + "," + currentChannel
   name := strings.Split(list, ",")[0]
   return rabbit.EmailWorkers[name], list[strings.Index(list, ",") + 1:]
 }

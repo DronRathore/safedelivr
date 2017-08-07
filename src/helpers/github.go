@@ -32,6 +32,7 @@ func getAccessTokenRequestObject(code string, state string) *http.Request {
   form := Url.Values{}
   form.Add("code", code)
   form.Add("state", state)
+  form.Add("scope", "user")
   form.Add("client_id", config.Configuration.Github.ClientId)
   form.Add("client_secret", config.Configuration.Github.ClientSecret)
   form.Add("redirect_uri", config.Configuration.Github.Success)
