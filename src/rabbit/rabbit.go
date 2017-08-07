@@ -122,7 +122,7 @@ func (c *Channel) Publish(routingKey string, data []byte) bool {
     DeliveryMode: amqp.Persistent,
     Timestamp:    time.Now(),
     ContentType:  "text/plain",
-    Body:         []byte("Go Go AMQP!"),
+    Body:         []byte(""),
   }
   // make it a mandatory publish so we don't lose packets
   err := c.channel.Publish(c.Exchange, routingKey, true, false, msg)

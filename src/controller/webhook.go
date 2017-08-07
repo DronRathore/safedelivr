@@ -97,7 +97,7 @@ func BatchUpdateSGStatus(req *request.Request, res *response.Response, next func
       break;
       case "deferred"  :
         updateObject = map[string]interface{}{"state": "deferred"}
-        shouldRetry = true
+        shouldRetry = false
         break;
       case "bounce"    : 
         updateObject = map[string]interface{}{"state": "bounced"}
@@ -157,7 +157,7 @@ func BatchUpdateSGStatus(req *request.Request, res *response.Response, next func
       fmt.Println("Creating a log")
       log = &models.Log{}
       _, err := log.Create(map[string]interface{}{
-        "state"  : "queued",
+        "state"  : eventName,
         "status" : map[string]bool{"sendgrid": true},
         "batch_id": batchId,
         "user_id": batch.User_id,
@@ -335,7 +335,7 @@ func BatchUpdateMGStatus(req *request.Request, res *response.Response, next func
     // create a log
     log = &models.Log{}
     _, err = log.Create(map[string]interface{}{
-      "state"  : "queued",
+      "state"  : eventName,
       "status" : map[string]bool{"mailgun": true},
       "batch_id": batchId,
       "user_id": batch.User_id,

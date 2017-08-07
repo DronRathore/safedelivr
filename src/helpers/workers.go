@@ -34,8 +34,7 @@ func NextChannelToTry(tried map[string]bool)(*rabbit.WorkerList){
 */
 func GetNextChannel(currentChannel string, list string) (*rabbit.WorkerList, string) {
   fmt.Println("Getting next channel=>", list)
-  // yes that's a quirk, can't find who is pushing that for empty body
-  if list == "" || list == "Go Go AMQP!" {
+  if list == "" {
     list = ""
     for channelName, _ := range rabbit.EmailWorkers {
       // we don't want to prioritize same channel
