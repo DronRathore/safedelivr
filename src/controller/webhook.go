@@ -196,6 +196,7 @@ func BatchUpdateSGStatus(req *request.Request, res *response.Response, next func
       // exhausted all the trials for this email
       // drop it permanently
       fmt.Println("Le'me just update and exit")
+      updateObject["state"] = "failed"
       log.Update(updateObject)
     }
   }
@@ -370,6 +371,7 @@ func BatchUpdateMGStatus(req *request.Request, res *response.Response, next func
   } else {
     // exhausted all the trials for this email
     // drop it permanently
+    updateObject["state"] = "failed"
     fmt.Println("Le'me just update and exit")
     log.Update(updateObject)
   }
