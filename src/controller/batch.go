@@ -299,7 +299,6 @@ func BatchCreate(req *request.Request, res *response.Response, next func()) {
   success, err = batch.Create(map[string]interface{}{
     "subject": req.Body["subject"][0],
     "user_id": user_id,
-    "api_key": req.Body["api_key"][0],
     "status" : "Acknowledged",
     "options": options,
     "created_at": time.Now()})
