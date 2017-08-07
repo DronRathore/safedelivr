@@ -16,8 +16,8 @@ func TestIsEmail(t *testing.T){
   t.Log("Testing helpers.IsEmail")
   var samples = map[string]bool{
     "sample@sample.com" : true,
-    "sample-@sample.com": false,
-    "sample-sample@sample.com": false,
+    "sample-@sample.com": true,
+    "sample-sample@sample.com": true,
     "sample.sample@sample.co.mn": true,
     "sample.sample@sample": false,
     "": false,
