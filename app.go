@@ -27,5 +27,5 @@ import (
   var Express = express.Express()
   router.SetRoutes(Express)
   Express.Start(config.Configuration.Port)
-  doggo.DoggoEvent("Server Started", "" , false)
+  doggo.DoggoEvent("Server Started", "Port=" + config.Configuration.Port, false)
  }
