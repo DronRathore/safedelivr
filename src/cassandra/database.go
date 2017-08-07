@@ -2,7 +2,7 @@ package cassandra
 
 import (
   "fmt"
-	"github.com/gocql/gocql"
+  "github.com/gocql/gocql"
 )
 // global session to query
 var Session *gocql.Session
