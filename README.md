@@ -15,6 +15,7 @@ In order to use safedelivr, you will need the following:
 - nodejs@8.0.1 (for UI server)
 - datadog-agent aka statsd
 - supervisord (optional)
+- nginx (to proxy pass between frontend and backend, config is included with the code)
 
 ## Steps
 Make sure you have installed the above required packages, after doing so run the below commands
