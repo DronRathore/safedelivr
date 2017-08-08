@@ -1,6 +1,6 @@
 language: go
 go:
   master
-go_import_path: ./
+go_import_path: github.com/DronRathore/safedelivr/src/
 script:
   - ./run_test
