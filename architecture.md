@@ -1,4 +1,4 @@
-![safeDelivr](http://i.imgur.com/S3I357i.png)
+![safeDelivr](http://i.imgur.com/ZGzd6kW.png)
 -----------------------------------------------------------------------------------------------------------------
 
 ## Architecture
@@ -148,7 +148,9 @@ Addition of a new Email provider is quite easy as long as the provider has webho
 - Add a Channel and append it to the [rabbit.EmailProvideres](https://github.com/DronRathore/safedelivr/blob/master/src/rabbit/setup.go#L47)
 - Implement a consumer. Consumers are generically executed, have a look at the [sendgrid one](https://github.com/DronRathore/safedelivr/blob/master/src/worker/sendgrid.go#L26) to get an idea.
 - Add a [webhook controller](https://github.com/DronRathore/safedelivr/blob/master/src/controller/webhook.go#L23-L203) for the same.
-
+## Architecture flaws
+- Current architecture doesn't keep state of consumer based failures, we can have a consumer based failure states so that they can be taken offline if any of them is failing rigorously
+- Instead of immediately pushing for retry in case of a provider failure we can use [Dead Letter Exchange](http://yuserinterface.com/dev/2013/01/08/how-to-schedule-delay-messages-with-rabbitmq-using-a-dead-letter-exchange/) mechanism and add a delay in our retries, optionally we can make use of go context timeouts.
 ## Future Scope
  - An addition of a cron like consumer for delayed or unacknowledged entity will enhance the whole system's robustness.
  - Allow user defined webhooks to make it a completely service driven framework
