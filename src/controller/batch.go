@@ -102,13 +102,12 @@ func BatchIndex(req *request.Request, res *response.Response, next func()){
 func BatchList(req *request.Request, res *response.Response, next func()){
   var user_id gocql.UUID
   var userData *models.UserRedis
-  var err error
 
   if IsLoggedIn(res) == false {
     goto Send403
   } else {
     userData = res.Locals["user"].(*models.UserRedis)
-    user_id, err = gocql.ParseUUID(userData.UUID)
+    user_id, _ = gocql.ParseUUID(userData.UUID)
     docs := models.FetchBatches(user_id, 20)
     doggo.AddDoggoMetric("server.200")
     res.JSON(docs)
@@ -118,11 +117,6 @@ func BatchList(req *request.Request, res *response.Response, next func()){
     doggo.AddDoggoMetric("auth.403")
     res.Header.SetStatus(403)
     res.JSON(map[string]string{"error": "Not a valid api_key or user_id"})
-  Send500:
-    doggo.AddDoggoMetric("server.500")
-    res.Header.SetStatus(500)
-    res.JSON(map[string]string{"error": "Internal Server Error"})
-    return
 }
 /*
   Retrieves all the logs associated to a batch, a batch can have multiple logs
