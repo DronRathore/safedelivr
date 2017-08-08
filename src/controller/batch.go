@@ -113,9 +113,6 @@ func BatchList(req *request.Request, res *response.Response, next func()){
     doggo.AddDoggoMetric("server.200")
     res.JSON(docs)
     return
-    if err != nil {
-      goto Send500
-    }
   }
   Send403:
     doggo.AddDoggoMetric("auth.403")
