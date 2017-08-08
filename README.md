@@ -1,4 +1,5 @@
-![safeDelivr](http://i.imgur.com/S3I357i.png)
+![travis](https://travis-ci.org/DronRathore/safedelivr.svg?branch=master)
+![safeDelivr](http://i.imgur.com/ZGzd6kW.png)
 # [SafeDelivr](https://safedelivr.com/)
 If you are looking for the source of UI app of safedelivr, you can find it [here](https://github.com/DronRathore/safedelivr-ui)
 
