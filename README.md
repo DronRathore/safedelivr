@@ -3,9 +3,11 @@
 # [SafeDelivr](https://safedelivr.com/)
 If you are looking for the source of UI app of safedelivr, you can find it [here](https://github.com/DronRathore/safedelivr-ui)
 
-An abstract documentation can also be found [here](https://safedelivr.com/docs).
+An abstract API documentation can be found [here](https://safedelivr.com/docs).
 
 Detailed Architecture documentation [is here](https://github.com/DronRathore/safedelivr/blob/master/architecture.md).
+## Introduction
+Safedelivr cascades multiple email providers to help ensure successful email deliveries, it also helps in cost distribution among multiple providers. Safedelivr has a built in mechanism of fail-safe retrials, it will automatically retry sending a mail if any of the provider fails or returns a failure through webhook or in during trasmission.
 
 ## Requirements
 In order to use safedelivr, you will need the following:
@@ -64,6 +66,9 @@ This helper is used by the webhook controllers, it will return a new worker if a
 
 Retrying within the consumers is handled automatically by the [generics file](https://github.com/DronRathore/safedelivr/blob/master/src/worker/generics.go#L120).
 Future scopes and further granular details can be found in the [architecture documentation](https://github.com/DronRathore/safedelivr/blob/master/architecture.md).
+
+The UI will reflect the providers with which email was tried to be dispatched
+![Logs View](http://i.imgur.com/kOLCGLt.png)
 
 ## Things left for future addition
 - User defined webhooks
