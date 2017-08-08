@@ -217,20 +217,16 @@ func BatchUpdateMGStatus(req *request.Request, res *response.Response, next func
   var batch *models.Batch
   var log *models.Log = nil
   var success bool
-  var boundary string
   var timestamp time.Time
   // Mailgun has this strange way of sending status updates
   // if it is a failed event than you get a form-data else a simple
   // post form is sent in case of delivered status
-  if helpers.IsMultipart(req.Header["content-type"], &boundary) {
-    form := helpers.ReadMultiPartForm(boundary, req.GetRaw().Body)
-    if form == nil {
+  if helpers.IsMultipart(req.Header["content-type"]) {
+    if len(req.Body) == 0 {
       res.Header.SetStatus(400)
       res.Write("Bad Request").End()
       return
     }
-    // inject the form-data values
-    req.Body = form.Value
   }
   // validate the request, should have valid auth header
   if helpers.IsValidMGRequest(req) == false {

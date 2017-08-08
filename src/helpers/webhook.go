@@ -29,12 +29,11 @@ func UpdateStats(user_id gocql.UUID, key string){
   stat := models.NewStat(user_id)
   stat.Update([]string{key})
 }
-func IsMultipart(header string, boundary *string) bool {
+func IsMultipart(header string) bool {
   parts := strings.Split(header, ";")
   if len(parts) == 2 {
     parts := strings.Split(parts[1], "=")
     if len(parts) == 2 && strings.TrimSpace(parts[0]) == "boundary" {
-      *boundary = parts[1]
       return true
     }
   }
