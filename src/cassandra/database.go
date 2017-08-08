@@ -20,7 +20,6 @@ func Connect(ip string, keyspace string) *gocql.Session {
   } else {
     return Session
   }
-  return nil
 }
 
 func Close(){

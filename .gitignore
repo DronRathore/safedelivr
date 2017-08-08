@@ -1,4 +1,5 @@
 app
-worker
+src/github.com
+src/gopkg.in
 ./tmp
 application.yml

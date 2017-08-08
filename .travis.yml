@@ -1,0 +1,8 @@
+language: go
+go:
+  master
+go_import_path: github.com/DronRathore/safedelivr
+install:
+  - export GOPATH=$HOME/gopath/src/github.com/DronRathore/safedelivr
+script:
+  - $GOPATH/run_test
