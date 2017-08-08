@@ -5,4 +5,4 @@ go_import_path: github.com/DronRathore/safedelivr
 install:
   - export GOPATH=$HOME/gopath/src/github.com/DronRathore/safedelivr
 script:
-  - ./run_test
+  - $GOPATH/run_test
