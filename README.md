@@ -24,7 +24,11 @@ Make sure you have installed the above required packages, after doing so run the
 cp ./application.yml.sample ./application.yml
 ./build.sh
 ```
-This should compile the binary and if you have supervisor than it will start the consumers as well as the app server.
+This should compile the binaries and if you have supervisor than you can start the consumers as well as the app server by passing ```--deploy``` option to it.
+```
+./build.sh --deploy
+```
+
 ## Troubleshoot
 If ```cqlsh``` throws error of ```keyspace``` run the below command
 ```sh
