@@ -5,10 +5,12 @@ import (
   "models"
   "time"
   "fmt"
+  "doggo"
   "encoding/json"
   "io/ioutil"
   "strings"
   "net/http"
+  "errors"
   Url "net/url"
 )
 
@@ -79,6 +81,35 @@ func GetGithubUserToken(code string, state string) *GithubToken {
   }
   return nil // couldn't create request object
 }
+/*
+  Emails are returned from another endpoint
+*/
+func getUserEmail(tokenStruct *GithubToken) (string, error) {
+  var url = config.Configuration.Github.Api + "/user/emails?access_token=" + tokenStruct.Access_Token
+  request, _ := http.NewRequest("GET", url, nil)
+  response, err := GithubClient.Do(request)
+  if err != nil {
+    return "", err
+  }
+  data, err := ioutil.ReadAll(response.Body)
+  if err != nil {
+    return "", err
+  }
+  var emails []map[string]interface{}
+  err = json.Unmarshal(data, &emails)
+  if err != nil {
+    return "", err
+  }
+  if len(emails) == 0 {
+    return "", errors.New("No email found")
+  }
+  for _, emailObj := range emails {
+    if emailObj["primary"] != nil && emailObj["primary"].(bool) == true {
+      return emailObj["email"].(string), nil
+    }
+  }
+  return emails[0]["email"].(string), nil
+}
 
 func GetGithubUserData (tokenStruct *GithubToken) *models.GithubUser {
   if tokenStruct.Access_Token != "" {
@@ -91,10 +122,19 @@ func GetGithubUserData (tokenStruct *GithubToken) *models.GithubUser {
           var GithubUserData = &models.GithubUser{Access_Token: tokenStruct.Access_Token}
           err = json.Unmarshal(data, GithubUserData)
           if err == nil {
+            if GithubUserData.Email == "" {
+              email, err := getUserEmail(tokenStruct)
+              if err == nil && email != "" {
+                GithubUserData.Email = email
+                return GithubUserData
+              } // email came empty
+              doggo.DoggoEvent("Github Email access failed", err, true)
+              return nil
+            } // email was empty
             return GithubUserData
-          }
-        }
-      }
+          } // no error for json
+        } // no error in reading response
+      } // no error in sending request
     }
   }
   return nil
