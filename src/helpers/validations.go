@@ -6,7 +6,7 @@ import (
   request "github.com/DronRathore/goexpress/request"
 )
 var EmailRegexp *regexp.Regexp
-const emailregex string = "^([[:alpha:]_.-]{1,})(@){1}([a-zA-Z0-9-]{1,})([.]){1}([a-z.]+)$"
+const emailregex string = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
 
 var InitRegex = (func() bool {
   EmailRegexp = regexp.MustCompile(emailregex)
@@ -34,10 +34,10 @@ func HasEssentials(req *request.Request) bool {
       }
     }
   }
-  if req.Body["subject"] == nil || len(req.Body["subject"]) == 0 {
+  if req.Body["subject"] == nil || len(req.Body["subject"][0]) == 0 {
     return false
   }
-  if req.Body["body"] == nil || len(req.Body["body"]) == 0 {
+  if req.Body["body"] == nil || len(req.Body["body"][0]) == 0 {
     return false
   }
   return true
