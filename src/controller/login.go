@@ -67,7 +67,7 @@ func LoginVerify(req *request.Request, res *response.Response, next func()){
     var userData = helpers.GetGithubUserData(tokenStruct)
     if userData == nil {
       res.Header.SetStatus(400)
-      res.Write("Bad Request").End()
+      res.Write("Bad Request, Check if you have at least one primary email associated with your account").End()
       return
     }
     // Create a new user or update the auth_token
@@ -113,7 +113,6 @@ func LoginVerify(req *request.Request, res *response.Response, next func()){
     // User data fetched/Access Token updated
     userData.UUID = user.GetId()
     userData.Api_key = userData.Access_Token
-    fmt.Println(user, user.GetId())
     var sessionKey = getUniqueString(tokenStruct.Access_Token)
     if helpers.SaveSession(sessionKey, userData) != true {
       // failed to save the user?
