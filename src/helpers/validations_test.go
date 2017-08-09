@@ -19,7 +19,10 @@ func TestIsEmail(t *testing.T){
     "sample-@sample.com": true,
     "sample-sample@sample.com": true,
     "sample.sample@sample.co.mn": true,
-    "sample.sample@sample": false,
+    "sample.sample@sample": true,
+    "db12.dc312-reply@yes.com": true,
+    "123123123@12213.com": true,
+    "db_123-db123.e@test.com": true,
     "": false,
   }
   for email, shouldMatch := range samples {
